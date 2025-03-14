@@ -19,10 +19,10 @@ gpu_timeout = int(os.getenv("GPU_TIMEOUT", 60))
 
 login(token=api_key)
 
-if torch.cuda.is_available():
-    device = "cuda"
-elif torch.backends.mps.is_available():  # Keep MPS check but deprioritize over CUDA
+if torch.backends.mps.is_available():
     device = "mps"
+elif torch.cuda.is_available():
+    device = "cuda"
 else:
     device = "cpu"
 
@@ -59,15 +59,10 @@ def _infer(text_prompt_speaker_a, text_prompt_speaker_b, audio_prompt_speaker_a,
         audio_tensor = generator.generate(text=line, speaker=speaker_id, context=prompt_segments + generated_segments, max_audio_length_ms=30_000)
         generated_segments.append(Segment(text=line, speaker=speaker_id, audio=audio_tensor))
 
-    if not generated_segments:
-        raise gr.Error("No audio generated. Check inputs.")
-
     audio_tensors = [segment.audio for segment in generated_segments]
     audio_tensor = torch.cat(audio_tensors, dim=0)
 
-    audio_array = audio_tensor.cpu().numpy()
-    audio_array = np.clip(audio_array * 32768, -32768, 32767).astype(np.int16)
-
+    audio_array = (audio_tensor * 32768).to(torch.int16).cpu().numpy()
     return generator.sample_rate, audio_array
 
 def prepare_prompt(text, speaker, audio_path):
@@ -79,9 +74,7 @@ def prepare_prompt(text, speaker, audio_path):
 
 def load_prompt_audio(audio_path):
     audio_tensor, sample_rate = torchaudio.load(audio_path)
-    
-    if audio_tensor.shape[0] > 1:  
-        audio_tensor = audio_tensor.mean(dim=0)  
+    audio_tensor = audio_tensor.squeeze(0)
     
     if sample_rate != generator.sample_rate:
         audio_tensor = torchaudio.functional.resample(audio_tensor, orig_freq=sample_rate, new_freq=generator.sample_rate)
