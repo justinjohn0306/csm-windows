@@ -10,5 +10,6 @@ gradio==5.20.1
 moshi==0.2.2
 torchtune==0.4.0
 torchao==0.9.0
+bitsandbytes
 silentcipher @ git+https://github.com/SesameAILabs/silentcipher@master
 https://github.com/justinjohn0306/local-llasa-tts-windows/releases/download/whl/triton-3.0.0-cp310-cp310-win_amd64.whl
