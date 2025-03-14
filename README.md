@@ -12,17 +12,33 @@ A hosted [HuggingFace space](https://huggingface.co/spaces/sesame/csm-1b) is als
 
 ## Usage
 
-Setup the repo
+### Setup
+
+This repo was tested on Python 3.10 and in an Anaconda virtual environment - regular python env can be used as well.
 
 ```bash
 git clone git@github.com:SesameAILabs/csm.git
 cd csm
-python3.10 -m venv .venv
-source .venv/bin/activate
+conda create -n csm python=3.10
+conda activate csm
 pip install -r requirements.txt
 ```
 
-Generate a sentence
+### Running the App
+
+Before running the app, set your Hugging Face token:
+
+```bash
+set HF_TOKEN="your_huggingface_token"
+```
+
+Then start the Gradio demo app:
+
+```bash
+python app.py
+```
+
+### Generate a Sentence
 
 ```python
 from huggingface_hub import hf_hub_download
@@ -41,7 +57,7 @@ audio = generator.generate(
 torchaudio.save("audio.wav", audio.unsqueeze(0).cpu(), generator.sample_rate)
 ```
 
-CSM sounds best when provided with context. You can prompt or provide context to the model using a `Segment` for each speaker utterance.
+### Using Context for Better Quality
 
 ```python
 speakers = [0, 1, 0, 0]
@@ -81,19 +97,16 @@ torchaudio.save("audio.wav", audio.unsqueeze(0).cpu(), generator.sample_rate)
 
 ## FAQ
 
-**Does this model come with any voices?**
+**Does this model come with any voices?**  
+The model open-sourced here is a base generation model. It is capable of producing a variety of voices, but it has not been fine-tuned on any specific voice.
 
-The model open sourced here is a base generation model. It is capable of producing a variety of voices, but it has not been fine-tuned on any specific voice.
+**Can I converse with the model?**  
+CSM is trained to be an audio generation model and not a general-purpose multimodal LLM. It cannot generate text. We suggest using a separate LLM for text generation.
 
-**Can I converse with the model?**
-
-CSM is trained to be an audio generation model and not a general purpose multimodal LLM. It cannot generate text. We suggest using a separate LLM for text generation.
-
-**Does it support other languages?**
-
+**Does it support other languages?**  
 The model has some capacity for non-English languages due to data contamination in the training data, but it likely won't do well.
 
-## Misuse and abuse ⚠️
+## Misuse and Abuse ⚠️
 
 This project provides a high-quality speech generation model for research and educational purposes. While we encourage responsible and ethical use, we **explicitly prohibit** the following:
 
@@ -106,4 +119,5 @@ By using this model, you agree to comply with all applicable laws and ethical gu
 ---
 
 ## Authors
+
 Johan Schalkwyk, Ankit Kumar, Dan Lyth, Sefik Emre Eskimez, Zack Hodari, Cinjon Resnick, Ramon Sanabria, Raven Jiang, and the Sesame team.
