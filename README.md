@@ -14,11 +14,11 @@ A hosted [HuggingFace space](https://huggingface.co/spaces/sesame/csm-1b) is als
 
 ### Setup
 
-This repo was tested on Python 3.10 and in an Anaconda virtual environment - regular python env can be used as well.
+This repository was tested with Python 3.10 and PyTorch 2.4.0 (built with CUDA 12.1) in an Anaconda virtual environment. A standard Python virtual environment can also be used.
 
 ```bash
 git clone https://github.com/justinjohn0306/csm-windows
-cd csm
+cd csm-windows
 conda create -n csm python=3.10
 conda activate csm
 pip install -r requirements.txt
