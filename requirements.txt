@@ -1,9 +1,14 @@
-torch==2.4.0
-torchaudio==2.4.0
+-f https://download.pytorch.org/whl/cu121
+soundfile
+torch==2.4.0+cu121
+torchaudio==2.4.0+cu121
 tokenizers==0.21.0
 transformers==4.49.0
 huggingface_hub==0.28.1
+spaces==0.32.0
+gradio==5.20.1
 moshi==0.2.2
 torchtune==0.4.0
 torchao==0.9.0
 silentcipher @ git+https://github.com/SesameAILabs/silentcipher@master
+https://github.com/justinjohn0306/local-llasa-tts-windows/releases/download/whl/triton-3.0.0-cp310-cp310-win_amd64.whl
