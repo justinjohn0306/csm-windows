@@ -17,7 +17,7 @@ A hosted [HuggingFace space](https://huggingface.co/spaces/sesame/csm-1b) is als
 This repo was tested on Python 3.10 and in an Anaconda virtual environment - regular python env can be used as well.
 
 ```bash
-git clone git@github.com:SesameAILabs/csm.git
+git clone https://github.com/justinjohn0306/csm-windows
 cd csm
 conda create -n csm python=3.10
 conda activate csm
